@@ -16,7 +16,10 @@ the controle plane is the central component of k8s that responsible for maintain
 
 Cluster is a one or more nodes that work together to run containerized applications
 
-
 ## Node
 
 node is refer to an individual machine **(physical or virtual)** that is part of a cluster and runs containerized applications
+
+## Pod
+
+pod is the smallest unit in kubernetes, can run one or more containers (unit is the smallest component that k8s manage)
