@@ -1,0 +1,11 @@
+Vagrant.configure("2") do |config|
+  config.vm.hostname = "ybel-hacS"
+  config.vm.box = "benot/ubuntu-24.04"
+  config.vm.provision :shell, inline: <<-SHELL
+    curl -sfL https://get.k3s.io | sh -
+  SHELL
+  config.vm.provider "virtualbox" do |v|
+    v.cpus = 1
+    v.memory = 512
+  end
+end
