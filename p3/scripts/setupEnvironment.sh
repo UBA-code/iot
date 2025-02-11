@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -e
-
 log() {
     local status=$1
     shift
@@ -54,7 +52,11 @@ log 0 "k3d has been installed"
 
 log 1 "creating cluster ..."
 
-k3d cluster create
+k3d cluster create -p "8888:8888@loadbalancer" -p "8080:443@loadbalancer"
+if [ $? -ne 0 ]; then
+    k3d cluster delete
+    k3d cluster create -p "8888:8888@loadbalancer" -p "8080:443@loadbalancer"
+fi
 
 log 0 "cluster has been created"
 
@@ -69,3 +71,10 @@ log 1 "installing argoCD in cluster ..."
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
 log 0 "argoCD has been installed inside the cluster in argocd namespace"
+
+
+log 1 "apply the argocd application manifest ..."
+
+kubectl apply -f ../confs/application.yaml
+
+log 0 "argocd application manifest has been applied"
