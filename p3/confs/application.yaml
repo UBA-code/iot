@@ -1,17 +1,42 @@
 apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: development
+  namespace: argocd
+  # Finalizer that ensures that project is not deleted until it is not referenced by any application
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  # Project description
+  description: development project for playground application
+
+  # Allow manifests to deploy from any Git repos
+  sourceRepos:
+  - '*'
+
+  # Only permit applications to deploy to the dev namespace in the same cluster
+  # Destination clusters can be identified by 'server', 'name', or both.
+  destinations:
+  - namespace: dev
+    server: https://kubernetes.default.svc
+    name: k3s-default
+
+---
+
+apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: argocd-app
   namespace: argocd
 spec:
-  project: default
+  project: development
   source:
     repoURL: https://github.com/UBA-code/ybel-hac_configs
     targetRevision: HEAD
     path: dev
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
+    namespace: dev
   syncPolicy:
     automated:
       selfHeal: true

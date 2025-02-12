@@ -27,10 +27,10 @@ log() {
 
 log 1 "creating cluster ..."
 
-k3d cluster create -p "8888:80@loadbalancer" -p "443:443@loadbalancer"
+K3D_FIX_DNS=0 k3d cluster create -p "8888:80@loadbalancer" -p "443:443@loadbalancer"
 if [ $? -ne 0 ]; then
     k3d cluster delete
-    k3d cluster create -p "8888:80@loadbalancer" -p "443:443@loadbalancer"
+    K3D_FIX_DNS=0 k3d cluster create -p "8888:80@loadbalancer" -p "443:443@loadbalancer"
 fi
 
 log 0 "cluster has been created"
@@ -65,8 +65,8 @@ NC='\033[0m' # No Color
 
 log 0 "${GREEN}ArgoCD and application ready to use${NC}"
 echo ""
-log 0 "  ➜  Local:   ${GREEN}http://localhost:9999/${NC}"
-log 0 "  ➜  user: ${GREEN}admin${NC}"
-log 0 "  ➜  user: ${GREEN}$ARGOCD_PASS${NC}"
+log 0 "  ➜  Local:\t${GREEN}http://localhost:9999/${NC}"
+log 0 "  ➜  user:\t${GREEN}admin${NC}"
+log 0 "  ➜  password:\t${GREEN}$ARGOCD_PASS${NC}"
 
 kubectl port-forward -n argocd svc/argocd-server 9999:443
