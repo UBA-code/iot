@@ -52,10 +52,10 @@ log 0 "k3d has been installed"
 
 log 1 "creating cluster ..."
 
-k3d cluster create -p "8888:8888@loadbalancer" -p "8080:443@loadbalancer"
+k3d cluster create -p "8888:80@loadbalancer" -p "443:443@loadbalancer"
 if [ $? -ne 0 ]; then
     k3d cluster delete
-    k3d cluster create -p "8888:8888@loadbalancer" -p "8080:443@loadbalancer"
+    k3d cluster create -p "8888:80@loadbalancer" -p "443:443@loadbalancer"
 fi
 
 log 0 "cluster has been created"
@@ -78,3 +78,20 @@ log 1 "apply the argocd application manifest ..."
 kubectl apply -f ../confs/application.yaml
 
 log 0 "argocd application manifest has been applied"
+
+log 1 "waiting to get argocd credentials ..."
+
+kubectl wait --for=condition=available --timeout=9000s deployment/argocd-server -n argocd
+
+ARGOCD_PASS=$(kubectl get secret argocd-initial-admin-secret -n argocd -o yaml | grep pass | awk '{print $2}' | base64 -d)
+
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+
+log 0 "${GREEN}ArgoCD and application ready to use${NC}"
+echo ""
+log 0 "  ➜  Local:   ${GREEN}http://localhost:9999/${NC}"
+log 0 "  ➜  user: ${GREEN}admin${NC}"
+log 0 "  ➜  user: ${GREEN}$ARGOCD_PASS${NC}"
+
+kubectl port-forward -n argocd svc/argocd-server 9999:443

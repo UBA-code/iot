@@ -17,7 +17,8 @@ spec:
     spec:
       containers:
       - name: app
-        image: wil42/playground:v2
+        # image: nginx
+        image: wil42/playground:v1
         ports:
         - containerPort: 8888
 
@@ -33,7 +34,7 @@ spec:
     app: playground
   ports:
     - protocol: TCP
-      port: 8888
+      port: 80
       targetPort: 8888
 
 ---
@@ -43,16 +44,15 @@ kind: Ingress
 metadata:
   name: playground-ingress
   namespace: dev
-  annotations:
-    ingress.kubernetes.io/ssl-redirect: "false"
 spec:
+  ingressClassName: traefik
   rules:
   - http:
       paths:
-      - path: "/"
+      - path: /
         pathType: Prefix
         backend:
           service:
             name: playground-service
             port:
-              number: 8888
+              number: 80
