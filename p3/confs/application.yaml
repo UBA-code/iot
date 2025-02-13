@@ -33,7 +33,7 @@ spec:
   source:
     repoURL: https://github.com/UBA-code/ybel-hac_configs
     targetRevision: HEAD
-    path: dev
+    path: manifests
   destination:
     server: https://kubernetes.default.svc
     namespace: dev
