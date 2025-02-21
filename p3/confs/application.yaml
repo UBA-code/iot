@@ -31,7 +31,7 @@ metadata:
 spec:
   project: development
   source:
-    repoURL: https://github.com/UBA-code/ybel-hac_configs
+    repoURL: http://my-gitlab-webservice-default.gitlab.svc.cluster.local:8181/root/ybel-hac_configs.git
     targetRevision: HEAD
     path: manifests
   destination:

@@ -26,7 +26,7 @@ log() {
 }
 
 K3D_FIX_DNS=0 k3d cluster create -p "22:22@loadbalancer" -p "80:80@loadbalancer" \
-    -p "8888:30100@loadbalancer" --agents=2 #? part 3 wil42 application port
+    -p "8888:30100@loadbalancer" #? part 3 wil42 application port
 
 # if [ $? -ne 0 ]; then
 #   k3d cluster delete
