@@ -56,10 +56,10 @@ log 0 "k3d has been installed"
 log 1 "creating cluster ..."
 
 k3d cluster create -p "8888:30100@loadbalancer"
-# if [ $? -ne 0 ]; then
-#     k3d cluster delete
-#     k3d cluster create -p "8888:80@loadbalancer"
-# fi
+if [ $? -ne 0 ]; then
+    k3d cluster delete
+    k3d cluster create -p "8888:30100@loadbalancer"
+fi
 
 log 0 "cluster has been created"
 
