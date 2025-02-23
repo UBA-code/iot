@@ -46,22 +46,10 @@ log 0 "docker has been configured"
 
 log 1 "Installing k3d ..."
 
-# Check if docker exists
+# Check if k3d exists
 if ! command -v k3d &> /dev/null; then
     wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
 fi
-
-log 0 "k3d has been installed"
-
-log 1 "creating cluster ..."
-
-k3d cluster create -p "8888:30100@loadbalancer"
-# if [ $? -ne 0 ]; then
-#     k3d cluster delete
-#     k3d cluster create -p "8888:80@loadbalancer"
-# fi
-
-log 0 "cluster has been created"
 
 log 1 "create namespaces with kubectl ..."
 
@@ -93,8 +81,8 @@ NC='\033[0m' # No Color
 
 log 0 "${GREEN}ArgoCD and application ready to use${NC}"
 echo ""
-log 0 "  ➜  Local:   ${GREEN}http://localhost:9999/${NC}"
-log 0 "  ➜  user: ${GREEN}admin${NC}"
-log 0 "  ➜  password: ${GREEN}$ARGOCD_PASS${NC}"
+log 0 "  ➜  Local:\t${GREEN}http://localhost:9999/${NC}"
+log 0 "  ➜  user:\t${GREEN}admin${NC}"
+log 0 "  ➜  password:\t${GREEN}$ARGOCD_PASS${NC}"
 
 kubectl port-forward -n argocd svc/argocd-server 9999:443

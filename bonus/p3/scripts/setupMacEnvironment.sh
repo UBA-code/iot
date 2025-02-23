@@ -25,15 +25,33 @@ log() {
     echo -e "${color}${timestamp} - $*${reset}"
 }
 
-log 1 "creating cluster ..."
+# log 1 "Installing dependencies ..."
 
-K3D_FIX_DNS=0 k3d cluster create -p "8888:80@loadbalancer" -p "443:443@loadbalancer"
-if [ $? -ne 0 ]; then
-    k3d cluster delete
-    K3D_FIX_DNS=0 k3d cluster create -p "8888:80@loadbalancer" -p "443:443@loadbalancer"
-fi
+# sudo pacman -Sy docker kubectl wget --noconfirm
 
-log 0 "cluster has been created"
+# log 0 "dependencies has been installed"
+
+
+# log 1 "start docker ..."
+
+# sudo systemctl start docker.socket
+# sudo systemctl start docker.service
+
+# log 1 "enable docker on boot ..."
+
+# sudo systemctl enable docker.socket
+# sudo systemctl enable docker.service
+
+# log 0 "docker has been configured"
+
+# log 1 "Installing k3d ..."
+
+# # Check if docker exists
+# if ! command -v k3d &> /dev/null; then
+#     wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+# fi
+
+# log 0 "k3d has been installed"
 
 log 1 "create namespaces with kubectl ..."
 

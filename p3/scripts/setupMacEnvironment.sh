@@ -93,8 +93,8 @@ NC='\033[0m' # No Color
 
 log 0 "${GREEN}ArgoCD and application ready to use${NC}"
 echo ""
-log 0 "  ➜  Local:   ${GREEN}http://localhost:9999/${NC}"
-log 0 "  ➜  user: ${GREEN}admin${NC}"
-log 0 "  ➜  password: ${GREEN}$ARGOCD_PASS${NC}"
+log 0 "  ➜  Local:\t${GREEN}http://localhost:9999/${NC}"
+log 0 "  ➜  user:\t${GREEN}admin${NC}"
+log 0 "  ➜  password:\t${GREEN}$ARGOCD_PASS${NC}"
 
 kubectl port-forward -n argocd svc/argocd-server 9999:443
