@@ -64,6 +64,11 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 log 0 "argoCD has been installed inside the cluster in argocd namespace"
 
 
+log 1 "Waiting for ArgoCD components to be ready ..."
+kubectl wait --for=condition=available --timeout=300s deployment/argocd-server -n argocd
+kubectl wait --for=condition=available --timeout=300s deployment/argocd-repo-server -n argocd
+log 0 "ArgoCD components are ready"
+
 log 1 "apply the argocd application manifest ..."
 
 kubectl apply -f ../confs/application.yaml
