@@ -35,10 +35,9 @@ fi
 
 helm repo add gitlab http://charts.gitlab.io/
 
-helm install my-gitlab gitlab/gitlab --wait --version 8.8.2 --namespace gitlab --create-namespace --set certmanager-issuer.email=ymks9330@gmail.com \
+helm install my-gitlab gitlab/gitlab --wait --version 8.8.2 --namespace gitlab --create-namespace \
     -f "../confs/values.yaml" \
     --timeout 600s
-
 
 if [ $? -eq 0 ]; then
   GREEN='\033[0;32m'
